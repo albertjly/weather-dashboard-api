@@ -64,5 +64,22 @@ a:hover {
   font-size: 18px;
   font-weight: bolder;
 }
+.weather .favorable,
+.weather .moderate,
+.weather .severe {
+  color: #fff;
+  padding: 3px 6px;
+  letter-spacing: 1px;
+  border-radius: 5px;
+}
+.weather .favorable {
+  background-color: green;
+}
+.weather .moderate {
+  background-color: blue;
+}
+.weather .severe {
+  background-color: red;
+}
 /********************************search-end*******************************/
 /*# sourceMappingURL=index.css.map */
