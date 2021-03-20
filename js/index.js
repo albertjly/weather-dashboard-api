@@ -1,17 +1,34 @@
 $(function () {
 
+    $('.city-details').css('display', 'none');
+
+    var $btn = $('#searchBtn');
+    $btn.on('click', function () {
+        // get input value and change into lowercase
+        var $cityInput = $('#cityInput').val().toLowerCase();
+
+        if ($cityInput === ''){
+            alert('Please type a city name!');
+        }else {
+            fetchWeatherData($cityInput);
+        }
+        $('.city-details').css('display', 'block');
+    });
+
 
     function fetchWeatherData(cityName) {
-        var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=los angeles&units=imperial&appid=ebeb83ac281ae433806cf721fae06c95';
+        var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&units=imperial&appid=ebeb83ac281ae433806cf721fae06c95';
+        // console.log(apiUrl);
 
         fetch(apiUrl).then(function (response) {
             return response.json();
+            // console.log(response);
         }).then(function (weatherData) {
-            console.log('Name: ' + weatherData.name);
-            console.log('Temperature: ' + weatherData.main.temp + ' F');
-            console.log('Humidity: ' + weatherData.main.humidity + ' %');
-            console.log('Wind Speed: ' + weatherData.wind.speed + ' MPH');
-            // console.log(response.current.visibility);
+            
+            $('#city-title').text(weatherData.name);
+            $('#city-temp').text('Temperature: ' + weatherData.main.temp + ' F');
+            $('#city-humid').text('Humidity: ' + weatherData.main.humidity + ' %');
+            $('#city-wind').text('Wind Speed: ' + weatherData.wind.speed + ' MPH');
 
             var currentLat = weatherData.coord.lat;
             var currentLon = weatherData.coord.lon;
@@ -22,17 +39,38 @@ $(function () {
         }).then(function (response) {
             return response.json();
         }).then(function (uviData) {
-            // console.log('UV Index: ' + uviData.current.uvi);
+            // console.log(uviData.current.uvi);
             var sum = 0;
             for (var i = 0; i < uviData.daily.length; i++) {
                 sum += parseFloat(uviData.daily[i].uvi);
             }
             var avgUvi = sum/uviData.daily.length;
-            console.log('UV Index: ' + avgUvi);
+            avgUvi = avgUvi.toFixed(2);
+
+            var cityUvi = $('<span>').text(avgUvi);
+            uviBg(avgUvi, cityUvi);
+            var cityUviNow = $('<span>').text(uviData.current.uvi);
+            uviBg(uviData.current.uvi, cityUviNow);
+
+            $('#city-uvi').text('UV Index (Avg): ').append(cityUvi);
+            $('#city-uvi-now').text('UV Index (Now): ').append(cityUviNow);
+
+
+            // console.log('UV Index: ' + avgUvi);
+
+            function uviBg(uviData, uviSpan) {
+                if (uviData < 3){
+                    uviSpan.addClass('favorable');
+                }else if (uviData >= 3 && uviData < 5){
+                    uviSpan.addClass('moderate');
+                }else {
+                    uviSpan.addClass('severe');
+                }
+            }
         })
     }
 
-    fetchWeatherData();
+
 
 
 

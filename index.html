@@ -22,8 +22,8 @@
                 <div class="search-box float-left w-100">
                     <h4 class="font-weight-bolder">Search for a City:</h4>
                     <form class="form-inline">
-                        <input class="form-control mr-1" type="search" placeholder="City or District" aria-label="Search">
-                        <button type="button" class="btn btn-primary w-auto">
+                        <input class="form-control mr-1" type="search" placeholder="City or District" aria-label="Search" id="cityInput">
+                        <button type="button" class="btn btn-primary w-auto" id="searchBtn">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
                             </svg>
@@ -51,7 +51,7 @@
             <!--display-->
             <div class="weather-display col-8">
                 <div class="col-12">
-                    <div class="city-details p-3">
+                    <!--<div class="city-details p-3">
                         <h3>Los Angeles</h3>
                         <p class="city-temp">Temperature: 90.9F</p>
                         <p class="city-humid">Humidity: 41%</p>
@@ -60,6 +60,14 @@
                             UV Index:
                             <span class="favorable">6.00</span>
                         </p>
+                    </div>-->
+                    <div class="city-details p-3">
+                        <h3 id="city-title"></h3>
+                        <p id="city-temp"></p>
+                        <p id="city-humid"></p>
+                        <p id="city-wind"></p>
+                        <p id="city-uvi"></p>
+                        <p id="city-uvi-now"></p>
                     </div>
                 </div>
                 <div class="col-12 mt-1">
