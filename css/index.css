@@ -1,0 +1,68 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+ul,
+ol {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color: #000000;
+}
+a:hover {
+  text-decoration: none;
+}
+/*******************************header-start******************************/
+/********************************header-end*******************************/
+/*******************************search-start******************************/
+.weather .search .search-box {
+  height: 100px;
+}
+.weather .search .search-box .form-control {
+  width: 85%;
+}
+.weather .search ul .cities {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+  width: 100%;
+  height: 50px;
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+}
+.weather .search ul .cities:first-child {
+  border-top-right-radius: 7px;
+  border-top-left-radius: 7px;
+}
+.weather .search ul .cities:last-child {
+  border-bottom: 1px solid #ccc;
+  border-bottom-right-radius: 7px;
+  border-bottom-left-radius: 7px;
+}
+.weather .search ul .cities p {
+  line-height: 50px;
+  cursor: pointer;
+}
+.weather .weather-display .city-details {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.weather .weather-display .city-details p {
+  margin-bottom: 8px;
+}
+.weather .weather-display .forecast ul li {
+  height: 140px;
+  background-color: red;
+  border-radius: 5px;
+}
+.weather .weather-display .forecast ul li p {
+  font-size: 14px;
+  padding-left: 8px;
+}
+.weather .weather-display .forecast ul li p:first-child {
+  font-size: 18px;
+  font-weight: bolder;
+}
+/********************************search-end*******************************/
+/*# sourceMappingURL=index.css.map */
