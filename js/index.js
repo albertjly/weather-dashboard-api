@@ -2,7 +2,7 @@ $(function () {
 
 
     function fetchWeatherData(cityName) {
-        var apiUrl = 'http://api.openweathermap.org/data/2.5/weather?q=los angeles&units=imperial&appid=ebeb83ac281ae433806cf721fae06c95';
+        var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=los angeles&units=imperial&appid=ebeb83ac281ae433806cf721fae06c95';
 
         fetch(apiUrl).then(function (response) {
             return response.json();
@@ -22,8 +22,13 @@ $(function () {
         }).then(function (response) {
             return response.json();
         }).then(function (uviData) {
-            console.log('UV Index: ' + uviData.current.uvi);
-            console.log('UV Index: ' + uviData.daily[2].uvi);
+            // console.log('UV Index: ' + uviData.current.uvi);
+            var sum = 0;
+            for (var i = 0; i < uviData.daily.length; i++) {
+                sum += parseFloat(uviData.daily[i].uvi);
+            }
+            var avgUvi = sum/uviData.daily.length;
+            console.log('UV Index: ' + avgUvi);
         })
     }
 
