@@ -1,7 +1,6 @@
 $(function () {
     // make a JSON for weather icon
-    var weatherIcons = [
-        {
+    var weatherIcons = [{
             name: 'Clouds',
             icon: 'bi-clouds'
         },
@@ -25,7 +24,7 @@ $(function () {
 
     function weatherIcon(condition) {
         for (var i = 0; i < weatherIcons.length; i++) {
-            if (weatherIcons[i].name === condition){
+            if (weatherIcons[i].name === condition) {
                 return weatherIcons[i].icon;
             }
         }
@@ -37,18 +36,13 @@ $(function () {
         // get input value and change into lowercase
         var $cityInput = $('#cityInput').val();
 
-        if ($cityInput === ''){
+        if ($cityInput === '') {
             alert('Please type a city name!');
-        }else {
+        } else {
             fetchWeatherData($cityInput);
         }
-        $('.city-details').css('display', 'block');
 
-        // insert <li> in ul
-        var cityLi = $('<li>').addClass('cities col-12 bg-white');
-        var cityName = $('<p>').addClass('pl-3').text($cityInput);
 
-        $('#citySearchList').append(cityLi.append(cityName));
     });
 
 
@@ -56,9 +50,25 @@ $(function () {
         var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&units=imperial&appid=ebeb83ac281ae433806cf721fae06c95';
 
         fetch(apiUrl).then(function (response) {
-            return response.json();
-            // console.log(response);
+            console.log(response);
+            if (response.status === 404) {
+                alert("It's not a city!");
+                // break;
+            } else {
+                return response.json();
+            }
+
         }).then(function (weatherData) {
+
+            if (weatherData) {
+                var $cityInput = $('#cityInput').val();
+                $('.city-details').css('display', 'block');
+                // insert <li> in ul
+                var cityLi = $('<li>').addClass('cities col-12 bg-white');
+                var cityName = $('<p>').addClass('pl-3').text($cityInput);
+
+                $('#citySearchList').append(cityLi.append(cityName));
+            }
 
             /*
             // using Bootstrap Icon
@@ -94,7 +104,7 @@ $(function () {
             for (var i = 0; i < uviData.daily.length; i++) {
                 sum += parseFloat(uviData.daily[i].uvi);
             }
-            var avgUvi = sum/uviData.daily.length;
+            var avgUvi = sum / uviData.daily.length;
             avgUvi = avgUvi.toFixed(2);
 
             var cityUvi = $('<span>').text(avgUvi);
@@ -109,11 +119,11 @@ $(function () {
             // console.log('UV Index: ' + avgUvi);
 
             function uviBg(uviData, uviSpan) {
-                if (uviData < 3){
+                if (uviData < 3) {
                     uviSpan.addClass('favorable');
-                }else if (uviData >= 3 && uviData < 5){
+                } else if (uviData >= 3 && uviData < 5) {
                     uviSpan.addClass('moderate');
-                }else {
+                } else {
                     uviSpan.addClass('severe');
                 }
             }
