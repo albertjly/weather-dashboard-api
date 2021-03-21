@@ -42,7 +42,6 @@ $(function () {
             fetchWeatherData($cityInput);
         }
 
-
     });
 
 
@@ -69,6 +68,8 @@ $(function () {
 
                 $('#citySearchList').append(cityLi.append(cityName));
             }
+            
+            $('#cityInput').val('');
 
             /*
             // using Bootstrap Icon
