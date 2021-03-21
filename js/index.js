@@ -16,6 +16,10 @@ $(function () {
         {
             name: 'Snow',
             icon: 'bi-cloud-snow'
+        },
+        {
+            name: 'Fog',
+            icon: 'bi-cloud-fog2'
         }
     ];
 
@@ -56,11 +60,17 @@ $(function () {
             // console.log(response);
         }).then(function (weatherData) {
 
+            /*
+            // using Bootstrap Icon
             var wCondition = weatherData.weather[0].main;
-
             $('#city-title').text(weatherData.name + ' ' + moment().format('L') + ' ').append($('<i>').addClass(
                 weatherIcon(wCondition)
             ));
+            */
+
+            // using Weather API weather icon url
+            var weatherIconUrl = 'http://openweathermap.org/img/wn/' + weatherData.weather[0].icon + '.png';
+            $('#city-title').text(weatherData.name + ' ' + moment().format('L') + ' ').append($('<img>').attr('src', weatherIconUrl));
 
 
             $('#city-temp').text('Temperature: ' + weatherData.main.temp + ' F');
@@ -68,6 +78,7 @@ $(function () {
             $('#city-wind').text('Wind Speed: ' + weatherData.wind.speed + ' MPH');
 
             console.log(weatherData.weather[0].main);
+            console.log(weatherData.weather[0].icon);
 
             var currentLat = weatherData.coord.lat;
             var currentLon = weatherData.coord.lon;
