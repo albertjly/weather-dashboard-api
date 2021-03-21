@@ -1,11 +1,37 @@
 $(function () {
+    // make a JSON for weather icon
+    var weatherIcons = [
+        {
+            name: 'Clouds',
+            icon: 'bi-clouds'
+        },
+        {
+            name: 'Rain',
+            icon: 'bi-cloud-rain'
+        },
+        {
+            name: 'Clear',
+            icon: 'bi-cloud-slash'
+        },
+        {
+            name: 'Snow',
+            icon: 'bi-cloud-snow'
+        }
+    ];
 
-    $('.city-details').css('display', 'none');
+    function weatherIcon(condition) {
+        for (var i = 0; i < weatherIcons.length; i++) {
+            if (weatherIcons[i].name === condition){
+                return weatherIcons[i].icon;
+            }
+        }
+    }
 
+    // click on searchBtn
     var $btn = $('#searchBtn');
     $btn.on('click', function () {
         // get input value and change into lowercase
-        var $cityInput = $('#cityInput').val().toLowerCase();
+        var $cityInput = $('#cityInput').val();
 
         if ($cityInput === ''){
             alert('Please type a city name!');
@@ -13,22 +39,35 @@ $(function () {
             fetchWeatherData($cityInput);
         }
         $('.city-details').css('display', 'block');
+
+        // insert <li> in ul
+        var cityLi = $('<li>').addClass('cities col-12 bg-white');
+        var cityName = $('<p>').addClass('pl-3').text($cityInput);
+
+        $('#citySearchList').append(cityLi.append(cityName));
     });
 
 
     function fetchWeatherData(cityName) {
         var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&units=imperial&appid=ebeb83ac281ae433806cf721fae06c95';
-        // console.log(apiUrl);
 
         fetch(apiUrl).then(function (response) {
             return response.json();
             // console.log(response);
         }).then(function (weatherData) {
-            
-            $('#city-title').text(weatherData.name);
+
+            var wCondition = weatherData.weather[0].main;
+
+            $('#city-title').text(weatherData.name + ' ' + moment().format('L') + ' ').append($('<i>').addClass(
+                weatherIcon(wCondition)
+            ));
+
+
             $('#city-temp').text('Temperature: ' + weatherData.main.temp + ' F');
             $('#city-humid').text('Humidity: ' + weatherData.main.humidity + ' %');
             $('#city-wind').text('Wind Speed: ' + weatherData.wind.speed + ' MPH');
+
+            console.log(weatherData.weather[0].main);
 
             var currentLat = weatherData.coord.lat;
             var currentLon = weatherData.coord.lon;

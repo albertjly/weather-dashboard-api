@@ -22,7 +22,7 @@ a:hover {
 .weather .search .search-box .form-control {
   width: 85%;
 }
-.weather .search ul .cities {
+.weather .search #citySearchList .cities {
   margin-bottom: 0 !important;
   padding-bottom: 0 !important;
   width: 100%;
@@ -31,20 +31,21 @@ a:hover {
   border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
 }
-.weather .search ul .cities:first-child {
+.weather .search #citySearchList .cities:first-child {
   border-top-right-radius: 7px;
   border-top-left-radius: 7px;
 }
-.weather .search ul .cities:last-child {
+.weather .search #citySearchList .cities:last-child {
   border-bottom: 1px solid #ccc;
   border-bottom-right-radius: 7px;
   border-bottom-left-radius: 7px;
 }
-.weather .search ul .cities p {
+.weather .search #citySearchList .cities p {
   line-height: 50px;
   cursor: pointer;
 }
 .weather .weather-display .city-details {
+  display: none;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
