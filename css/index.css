@@ -55,6 +55,9 @@ a:hover {
 .weather .weather-display .city-details #city-title img {
   margin-bottom: 10px;
 }
+.weather .weather-display .forecast {
+  display: none;
+}
 .weather .weather-display .forecast ul li {
   height: 140px;
   background-color: red;
