@@ -20,7 +20,7 @@ a:hover {
   height: 100px;
 }
 .weather .search .search-box .form-control {
-  width: 85%;
+  width: 75%;
 }
 .weather .search #citySearchList .cities {
   margin-bottom: 0 !important;
@@ -55,13 +55,11 @@ a:hover {
 .weather .weather-display .city-details #city-title img {
   margin-bottom: 10px;
 }
-.weather .weather-display .forecast {
-  display: none;
-}
 .weather .weather-display .forecast ul li {
   height: 140px;
   background-color: red;
   border-radius: 5px;
+  margin-bottom: 10px;
 }
 .weather .weather-display .forecast ul li p {
   font-size: 14px;

@@ -217,7 +217,7 @@ $(function () {
              */
             function appendItems(selector, day) {
                 appendP(selector, day);
-                $(selector).append($('<img>').attr('src', weatherIconUrl).attr('width', '25%'));
+                $(selector).append($('<img>').attr('src', weatherIconUrl).attr('height', '40%'));
                 appendP(selector, 'Temp: ' + forecastList.main.temp + ' F');
                 appendP(selector, 'Humidity: ' + forecastList.main.humidity + ' %');
             }
