@@ -31,37 +31,11 @@
                         </button>
                     </form>
                 </div>
-                <ul class="w-100 row no-gutters align-content-start h-auto" id="citySearchList">
-                    <!--<li class="cities col-12 bg-white">
-                        <p class="pl-3">Los Angeles</p>
-                    </li>
-                    <li class="cities col-12 bg-white">
-                        <p class="pl-3">San Francisco</p>
-                    </li>
-                    <li class="cities col-12 bg-white">
-                        <p class="pl-3">Washington D.C.</p>
-                    </li>
-                    <li class="cities col-12 bg-white">
-                        <p class="pl-3">New York City</p>
-                    </li>
-                    <li class="cities col-12 bg-white">
-                        <p class="pl-3">Las Vegas</p>
-                    </li>-->
-                </ul>
+                <ul class="w-100 row no-gutters align-content-start h-auto" id="citySearchList"></ul>
             </div>
             <!--display-->
             <div class="weather-display col-8">
                 <div class="col-12">
-                    <!--<div class="city-details p-3">
-                        <h3>Los Angeles</h3>
-                        <p class="city-temp">Temperature: 90.9F</p>
-                        <p class="city-humid">Humidity: 41%</p>
-                        <p class="city-wind">Wind Speed: 4.7 MPH</p>
-                        <p class="city-uvi">
-                            UV Index:
-                            <span class="favorable">6.00</span>
-                        </p>
-                    </div>-->
                     <div class="city-details p-3">
                         <h3 id="city-title"></h3>
                         <p id="city-temp"></p>
@@ -75,36 +49,11 @@
                     <div class="forecast row no-gutters">
                         <h3 class="col-12 mt-1 mb-2">5-Day Forecast:</h3>
                         <ul class="col-12 row justify-content-between no-gutters">
-                            <li class="bg-primary col-2 row no-gutters align-items-center">
-                                <p class="col-12 text-light mb-1">08/16/2019</p>
-                                <p class="col-12 text-light mb-1">☀</p>
-                                <p class="col-12 text-light mb-1">Temp: 86.84 F</p>
-                                <p class="col-12 text-light mb-1">Humidity: 43%</p>
-                            </li>
-                            <li class="bg-primary col-2 row no-gutters align-items-center">
-                                <p class="col-12 text-light mb-1">08/16/2019</p>
-                                <p class="col-12 text-light mb-1">☁</p>
-                                <p class="col-12 text-light mb-1">Temp: 86.84 F</p>
-                                <p class="col-12 text-light mb-1">Humidity: 43%</p>
-                            </li>
-                            <li class="bg-primary col-2 row no-gutters align-items-center">
-                                <p class="col-12 text-light mb-1">08/16/2019</p>
-                                <p class="col-12 text-light mb-1">❄</p>
-                                <p class="col-12 text-light mb-1">Temp: 86.84 F</p>
-                                <p class="col-12 text-light mb-1">Humidity: 43%</p>
-                            </li>
-                            <li class="bg-primary col-2 row no-gutters align-items-center">
-                                <p class="col-12 text-light mb-1">08/16/2019</p>
-                                <p class="col-12 text-light mb-1">🌩️</p>
-                                <p class="col-12 text-light mb-1">Temp: 86.84 F</p>
-                                <p class="col-12 text-light mb-1">Humidity: 43%</p>
-                            </li>
-                            <li class="bg-primary col-2 row no-gutters align-items-center">
-                                <p class="col-12 text-light mb-1">08/16/2019</p>
-                                <p class="col-12 text-light mb-1">🌧️</p>
-                                <p class="col-12 text-light mb-1">Temp: 86.84 F</p>
-                                <p class="col-12 text-light mb-1">Humidity: 43%</p>
-                            </li>
+                            <li class="bg-primary col-2 row no-gutters align-items-center" id="liDay1"></li>
+                            <li class="bg-primary col-2 row no-gutters align-items-center" id="liDay2"></li>
+                            <li class="bg-primary col-2 row no-gutters align-items-center" id="liDay3"></li>
+                            <li class="bg-primary col-2 row no-gutters align-items-center" id="liDay4"></li>
+                            <li class="bg-primary col-2 row no-gutters align-items-center" id="liDay5"></li>
                         </ul>
                     </div>
                 </div>
