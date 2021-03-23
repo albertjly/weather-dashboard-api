@@ -1,4 +1,6 @@
 $(function () {
+    var weatherForecast = JSON.parse(localStorage.getItem('weatherForecast')) || [];
+
     // click on searchBtn
     $('#searchBtn').on('click', function () {
         // get the value of input
@@ -9,13 +11,39 @@ $(function () {
         } else {
             fetchWeatherData($cityInput);
         }
+
+        // return $cityInput;
+        checkArr($cityInput);
+
     });
 
+    /*
     // when click on search history, fetch data again
     $('#citySearchList').on('click', 'p', function (event) {
         var cityName = event.target.innerHTML;
         fetchWeatherData(cityName);
     });
+    */
+
+    // when click on search history, replace with localStorage
+    $('#citySearchList').on('click', 'p', function (event) {
+        // alert($(this).text());
+        for (var i = 0; i < weatherForecast.length; i++) {
+            if (weatherForecast[i].name === $(this).text()){
+                $('.weather-display').html(weatherForecast[i].display);
+                $('.forecast').html(weatherForecast[i].forecast);
+            }
+        }
+    });
+
+    function checkArr(name){
+        for (var i = 0; i < weatherForecast.length; i++){
+            if (weatherForecast[i].name === name){
+                // if match name in localStorage, delete the previous data from localStorage
+                weatherForecast.splice(i, 1);
+            }
+        }
+    }
 
     /*
     // make a JSON for weather icon
@@ -174,7 +202,7 @@ $(function () {
             var day5 = moment().add(5, 'day').format('L');
 
             // traversal the list and get each day of forecast
-            for (var i = 4; i < forecast.list.length; i += 8) {
+            for (var i = 7; i < forecast.list.length; i += 8) {
                 var forecastList = forecast.list[i];
                 // split forecastTime with space and remain the first part
                 var forecastTime = forecastList.dt_txt.split(' ')[0];
@@ -195,6 +223,14 @@ $(function () {
                     appendItems('#liDay5', day5);
                 }
             }
+
+            weatherForecast.unshift({
+                name: $('.cities:last-child').text(),
+                display: $('.weather-display').html(),
+                forecast: $('.forecast').html()
+            });
+
+            localStorage.setItem('weatherForecast', JSON.stringify(weatherForecast));
 
             function createP() {
                 return $('<p>').addClass('col-12 text-light mb-1');
@@ -223,5 +259,4 @@ $(function () {
             }
         })
     }
-
 });
