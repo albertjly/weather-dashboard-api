@@ -1,88 +1,36 @@
 $(function () {
     var weatherForecast = JSON.parse(localStorage.getItem('weatherForecast')) || [];
 
-    // click on searchBtn
-    $('#searchBtn').on('click', function () {
-        // get the value of input
-        var $cityInput = $('#cityInput').val();
+    $('[data-search-form]').on('submit', function (e) {
+        e.preventDefault();
+        var searchForm = $(e.target).find('#cityInput').val();
 
-        if ($cityInput === '') {
+        if (searchForm === '') {
             alert('Please type a city name!');
         } else {
-            fetchWeatherData($cityInput);
+            fetchWeatherData(searchForm);
         }
 
-        // return $cityInput;
-        checkArr($cityInput);
-
+        // checkArr(searchForm);
+        $('#cityInput').val('');
     });
 
-    /*
-    // when click on search history, fetch data again
-    $('#citySearchList').on('click', 'p', function (event) {
-        var cityName = event.target.innerHTML;
-        fetchWeatherData(cityName);
-    });
-    */
+    function renderHistory() {
+        $('#citySearchList').empty();
 
+        for (var i = 0; i < weatherForecast.length; i++) {
+            var cityLi = $('<li>').addClass('cities col-12 bg-white');
+            var cityName = $('<p>').addClass('pl-3').text(weatherForecast[i].name);
+            // insert <p> into <li> and then into ul
+            $('#citySearchList').append(cityLi.append(cityName));
+        }
+    }
+
+    renderHistory();
     // when click on search history, replace with localStorage
     $('#citySearchList').on('click', 'p', function (event) {
-        // alert($(this).text());
-        for (var i = 0; i < weatherForecast.length; i++) {
-            if (weatherForecast[i].name === $(this).text()){
-                $('.weather-display').html(weatherForecast[i].display);
-                $('.forecast').html(weatherForecast[i].forecast);
-            }
-        }
+        fetchWeatherData(event.target.textContent)
     });
-
-    function checkArr(name){
-        for (var i = 0; i < weatherForecast.length; i++){
-            if (weatherForecast[i].name === name){
-                // if match name in localStorage, delete the previous data from localStorage
-                weatherForecast.splice(i, 1);
-            }
-        }
-    }
-
-    /*
-    // make a JSON for weather icon
-    var weatherIcons = [
-        {
-            name: 'Clouds',
-            icon: 'bi-clouds'
-        },
-        {
-            name: 'Rain',
-            icon: 'bi-cloud-rain'
-        },
-        {
-            name: 'Clear',
-            icon: 'bi-cloud-slash'
-        },
-        {
-            name: 'Snow',
-            icon: 'bi-cloud-snow'
-        },
-        {
-            name: 'Fog',
-            icon: 'bi-cloud-fog2'
-        }
-    ];
-
-    /!**
-     * base on 'condition' of weather to match a icon class name
-     * @param {string}condition
-     * @returns {string}
-     *!/
-    function weatherIcon(condition) {
-        for (var i = 0; i < weatherIcons.length; i++) {
-            if (weatherIcons[i].name === condition) {
-                return weatherIcons[i].icon;
-            }
-        }
-    }
-    */
 
     /**
      * cityInput will be the cityName of the function
@@ -99,28 +47,8 @@ $(function () {
                 return response.json();
             }
         }).then(function (weatherData) {
-            // if weatherData exist, add inputs into search history
-            if (weatherData) {
-                var $cityInput = $('#cityInput').val();
-                if ($cityInput !== ''){
-                    $('.city-details').css('display', 'block');
 
-                    var cityLi = $('<li>').addClass('cities col-12 bg-white');
-                    var cityName = $('<p>').addClass('pl-3').text($cityInput);
-                    // insert <p> into <li> and then into ul
-                    $('#citySearchList').append(cityLi.append(cityName));
-                }
-            }
-            // empty input box after click on search btn
-            $('#cityInput').val('');
-
-            /*
-            // using Bootstrap Icon
-            var wCondition = weatherData.weather[0].main;
-            $('#city-title').text(weatherData.name + ' ' + moment().format('L') + ' ').append($('<i>').addClass(
-                weatherIcon(wCondition)
-            ));
-            */
+            $('.city-details').css('display', 'block');
 
             // using Weather API weather icon url
             var weatherIconUrl = 'http://openweathermap.org/img/wn/' + weatherData.weather[0].icon + '.png';
@@ -129,7 +57,9 @@ $(function () {
             $('#city-temp').text('Temperature: ' + weatherData.main.temp + ' F');
             $('#city-humid').text('Humidity: ' + weatherData.main.humidity + ' %');
             $('#city-wind').text('Wind Speed: ' + weatherData.wind.speed + ' MPH');
-            // get city lat and lon to
+            // console.log(weatherData);
+
+            // get city lat and lon to new fetch
             var currentLat = weatherData.coord.lat;
             var currentLon = weatherData.coord.lon;
 
@@ -188,49 +118,63 @@ $(function () {
             $('.forecast').css('display', 'block');
 
             // erase data before setting new data
-            $('#liDay1').empty();
-            $('#liDay2').empty();
-            $('#liDay3').empty();
-            $('#liDay4').empty();
-            $('#liDay5').empty();
+            $('.bg-primary').empty();
+
+            var utcTime = moment().subtract(moment().format('ZZ')/100, 'hours');
+            var cityTime = utcTime.add(forecast.city.timezone, 'seconds');
 
             // set the next 5 days
-            var day1 = moment().add(1, 'day').format('L');
-            var day2 = moment().add(2, 'day').format('L');
-            var day3 = moment().add(3, 'day').format('L');
-            var day4 = moment().add(4, 'day').format('L');
-            var day5 = moment().add(5, 'day').format('L');
+            var day1 = moment(cityTime).add(1, 'day').format('L');
+            var day2 = moment(cityTime).add(2, 'days').format('L');
+            var day3 = moment(cityTime).add(3, 'days').format('L');
+            var day4 = moment(cityTime).add(4, 'days').format('L');
+            var day5 = moment(cityTime).add(5, 'days').format('L');
 
             // traversal the list and get each day of forecast
-            for (var i = 7; i < forecast.list.length; i += 8) {
+            for (var i = 0; i < forecast.list.length; i++) {
                 var forecastList = forecast.list[i];
-                // split forecastTime with space and remain the first part
-                var forecastTime = forecastList.dt_txt.split(' ')[0];
-                // transform forecastTime to match with moment time
-                var transTime = moment(forecastTime).format('L');
-                // using Weather API weather icon url
-                var weatherIconUrl = 'http://openweathermap.org/img/wn/' + forecastList.weather[0].icon + '.png';
+                var indexTime = Number(forecast.list[forecast.list.length-1].dt_txt.split(' ')[1].split(':')[0]);
 
-                if (transTime === day1){
-                    appendItems('#liDay1', day1);
-                }else if (transTime === day2){
-                    appendItems('#liDay2', day2);
-                }else if (transTime === day3){
-                    appendItems('#liDay3', day3);
-                }else if (transTime === day4){
-                    appendItems('#liDay4', day4);
-                }else if (transTime === day5){
-                    appendItems('#liDay5', day5);
+                if (forecastList.dt_txt.indexOf(indexTime + ':00:00') !== -1) {
+                    // split forecastTime with space and remain the first part
+                    var forecastTime = forecastList.dt_txt.split(' ')[0];
+                    // transform forecastTime to match with moment time
+                    var transTime = moment(forecastTime).format('L');
+                    // using Weather API weather icon url
+                    var weatherIconUrl = 'http://openweathermap.org/img/wn/' + forecastList.weather[0].icon + '.png';
+                    
+                    if (transTime === day1) {
+                        appendItems('#liDay1', day1);
+                    } else if (transTime === day2) {
+                        appendItems('#liDay2', day2);
+                    } else if (transTime === day3) {
+                        appendItems('#liDay3', day3);
+                    } else if (transTime === day4) {
+                        appendItems('#liDay4', day4);
+                    } else if (transTime === day5) {
+                        appendItems('#liDay5', day5);
+                    }
                 }
             }
 
-            weatherForecast.unshift({
-                name: $('.cities:last-child').text(),
-                display: $('.weather-display').html(),
-                forecast: $('.forecast').html()
+
+            var filterForecast = weatherForecast.filter(function (el) {
+                if (el.name === cityName) {
+                    return false;
+                } else {
+                    return true;
+                }
             });
 
-            localStorage.setItem('weatherForecast', JSON.stringify(weatherForecast));
+            filterForecast.unshift({
+                name: cityName
+            });
+
+            weatherForecast = filterForecast;
+
+            localStorage.setItem('weatherForecast', JSON.stringify(filterForecast));
+
+            renderHistory();
 
             function createP() {
                 return $('<p>').addClass('col-12 text-light mb-1');
