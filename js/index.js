@@ -135,7 +135,7 @@ $(function () {
                 var forecastList = forecast.list[i];
                 var indexTime = Number(forecast.list[forecast.list.length-1].dt_txt.split(' ')[1].split(':')[0]);
 
-                if (forecastList.dt_txt.indexOf(indexTime + ':00:00') !== -1) {
+                if (forecastList.dt_txt.indexOf('12:00:00') !== -1) {
                     // split forecastTime with space and remain the first part
                     var forecastTime = forecastList.dt_txt.split(' ')[0];
                     // transform forecastTime to match with moment time
